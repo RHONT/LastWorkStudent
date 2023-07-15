@@ -1,10 +1,10 @@
 package com.example.lastworkstudent.services.implApi;
 
 
-import com.example.lastworkstudent.dao.EmployeesRepository;
 import com.example.lastworkstudent.entity.Departments;
 import com.example.lastworkstudent.entity.Employee;
 import com.example.lastworkstudent.services.api.DepartmentService;
+import com.example.lastworkstudent.services.api.EmployeeService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -14,17 +14,17 @@ import java.util.stream.Stream;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private final Map<Integer, Employee> employees;
 
-    public DepartmentServiceImpl(EmployeesRepository employeesRepository) {
+    private final EmployeeService employeeService;
 
-        this.employees = employeesRepository.getEmployees();
+    public DepartmentServiceImpl(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     @Override
     public String findMaxSalaryOfDepartment(int department) {
         Departments tempDepartment = Departments.findByKey(department);
-        double result=Stream.of(employees)
+        double result=Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .mapToDouble(Employee::getSalary)
@@ -36,7 +36,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String findMinSalaryOfDepartment(int department) {
         Departments tempDepartment = Departments.findByKey(department);
-        double result=Stream.of(employees)
+        double result=Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .mapToDouble(Employee::getSalary)
@@ -48,7 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Employee> getEmployeesOfDepartment(int dep) {
         Departments tempDepartment = Departments.findByKey(dep);
-        return Stream.of(employees)
+        return Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .collect(Collectors.toList());
@@ -59,7 +59,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         Map<Departments, List<Employee>> dictDepartAndEmployees = new HashMap<>();
 
-        for (var element : employees.values()) {
+        for (var element : employeeService.getAll().values()) {
             if (dictDepartAndEmployees.containsKey(element.getDep())) {
                 dictDepartAndEmployees.get(element.getDep()).add(element);
             } else {
@@ -72,7 +72,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public String sumPayDepartment(int department) {
-        double result = Stream.of(employees).
+        double result = Stream.of(employeeService.getAll()).
                 flatMap(e -> e.values().stream()).
                 filter(e -> e.getDep().getId_dep() == department).
                 mapToDouble(Employee::getSalary).sum();
