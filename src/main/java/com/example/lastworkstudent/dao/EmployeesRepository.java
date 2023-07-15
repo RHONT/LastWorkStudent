@@ -1,14 +1,14 @@
-package com.example.lastworkstudent.DAO;
+package com.example.lastworkstudent.dao;
 
 
 import com.example.lastworkstudent.entity.Departments;
 import com.example.lastworkstudent.entity.Employee;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Repository
 public class EmployeesRepository {
     private final Map<Integer, Employee> employees = new HashMap<>();
 

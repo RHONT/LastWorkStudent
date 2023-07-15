@@ -3,7 +3,7 @@ package com.example.lastworkstudent.controllers;
 
 import com.example.lastworkstudent.entity.Departments;
 import com.example.lastworkstudent.entity.Employee;
-import com.example.lastworkstudent.impl.EmployeeService;
+import com.example.lastworkstudent.services.api.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,11 +1,12 @@
-package com.example.lastworkstudent.impl;
+package com.example.lastworkstudent.services.implApi;
 
 
-import com.example.lastworkstudent.DAO.EmployeesRepository;
+import com.example.lastworkstudent.dao.EmployeesRepository;
 import com.example.lastworkstudent.entity.Departments;
 import com.example.lastworkstudent.entity.Employee;
 import com.example.lastworkstudent.exceptions.EmployeeAlreadyAddedException;
 import com.example.lastworkstudent.exceptions.EmployeeNotFoundException;
+import com.example.lastworkstudent.services.api.EmployeeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -53,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         validateFIO(first, second);
         Employee employee = new Employee(first, second, salary, dep);
         if (!employees.containsKey(employee.hashCode())) {
-            throw new EmployeeNotFoundException("Такой сотрудника нет");
+            throw new EmployeeNotFoundException("Такого сотрудника нет");
         }
         return employees.get(employee.hashCode());
     }

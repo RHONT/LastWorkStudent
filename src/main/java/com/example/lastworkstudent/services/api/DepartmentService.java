@@ -1,4 +1,4 @@
-package com.example.lastworkstudent.impl;
+package com.example.lastworkstudent.services.api;
 
 
 
@@ -10,12 +10,13 @@ import java.util.Map;
 
 public interface DepartmentService {
 
-    Employee findMaxSalaryOfDepartment(int dep);
+    String findMaxSalaryOfDepartment(int dep);
 
-    Employee findMinSalaryOfDepartment(int dep);
+    String findMinSalaryOfDepartment(int dep);
 
     List<Employee> getEmployeesOfDepartment(int dep);
 
     Map<Departments, List<Employee>> groupEmployeesByDepartments();
 
+    String sumPayDepartment(int department);
 }
