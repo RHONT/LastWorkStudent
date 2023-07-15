@@ -10,13 +10,14 @@ import java.util.Map;
 
 public interface DepartmentService {
 
-    double findMaxSalaryOfDepartment(int dep);
 
-    double findMinSalaryOfDepartment(int dep);
+    double findMaxSalaryOfDepartment(Integer department);
 
-    List<Employee> getEmployeesOfDepartment(int dep);
+    double findMinSalaryOfDepartment(Integer department);
+
+    List<Employee> getEmployeesOfDepartment(Integer dep);
 
     Map<Departments, List<Employee>> groupEmployeesByDepartments();
 
-    double sumPayDepartment(int department);
+    double sumPayDepartment(Integer department);
 }

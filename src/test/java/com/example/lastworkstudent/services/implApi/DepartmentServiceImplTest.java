@@ -83,4 +83,14 @@ class DepartmentServiceImplTest {
 
     }
 
+    @Test
+    void findMinSalaryOfDepartmentThrowIllegalArgumentException() {
+
+        assertThrows(IllegalArgumentException.class,()-> depService.findMinSalaryOfDepartment(4));
+        assertThrows(IllegalArgumentException.class,()-> depService.findMaxSalaryOfDepartment(4));
+
+    }
+
+
+
 }

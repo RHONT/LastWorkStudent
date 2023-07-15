@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-
     private final EmployeeService employeeService;
 
     public DepartmentServiceImpl(EmployeeService employeeService) {
@@ -22,29 +21,32 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public double findMaxSalaryOfDepartment(int department) {
+    public double findMaxSalaryOfDepartment(Integer department) {
+
         Departments tempDepartment = Departments.findByKey(department);
 
         return Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .mapToDouble(Employee::getSalary)
-                .max().orElse(0);
+                .max().orElseThrow(()-> new IllegalArgumentException("Отдела не существует"));
     }
 
     @Override
-    public double findMinSalaryOfDepartment(int department) {
+    public double findMinSalaryOfDepartment(Integer department) {
+
         Departments tempDepartment = Departments.findByKey(department);
         return Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .mapToDouble(Employee::getSalary)
-                .min().orElse(0);
+                .min().orElseThrow(()-> new IllegalArgumentException("Отдела не существует"));
     }
 
     @Override
-    public List<Employee> getEmployeesOfDepartment(int dep) {
-        Departments tempDepartment = Departments.findByKey(dep);
+    public List<Employee> getEmployeesOfDepartment(Integer department) {
+
+        Departments tempDepartment = Departments.findByKey(department);
         return Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
@@ -68,11 +70,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public double sumPayDepartment(int department) {
+    public double sumPayDepartment(Integer department) {
         double result = Stream.of(employeeService.getAll()).
                 flatMap(e -> e.values().stream()).
                 filter(e -> e.getDep().getId_dep() == department).
                 mapToDouble(Employee::getSalary).sum();
         return result;
     }
+
+//    private void checkDepartmentNotNull(Integer someDepart){
+//        if (someDepart==null) {
+//            throw new IllegalArgumentException("Отдел не введен");
+//        }
+//    }
 }
