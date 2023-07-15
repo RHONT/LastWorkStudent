@@ -22,27 +22,24 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String findMaxSalaryOfDepartment(int department) {
+    public double findMaxSalaryOfDepartment(int department) {
         Departments tempDepartment = Departments.findByKey(department);
-        double result=Stream.of(employeeService.getAll())
+
+        return Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .mapToDouble(Employee::getSalary)
                 .max().orElse(0);
-        String outputString="Максимальная зарплата по отделу  " + Departments.findByKey(department) + " равна = " + result;
-        return  outputString;
     }
 
     @Override
-    public String findMinSalaryOfDepartment(int department) {
+    public double findMinSalaryOfDepartment(int department) {
         Departments tempDepartment = Departments.findByKey(department);
-        double result=Stream.of(employeeService.getAll())
+        return Stream.of(employeeService.getAll())
                 .flatMap(e -> e.values().stream())
                 .filter(e -> e.getDep() == tempDepartment)
                 .mapToDouble(Employee::getSalary)
                 .min().orElse(0);
-        String outputString="Минимальная зарплата по отделу  " + Departments.findByKey(department) + " равна = " + result;
-        return outputString;
     }
 
     @Override
@@ -71,13 +68,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public String sumPayDepartment(int department) {
+    public double sumPayDepartment(int department) {
         double result = Stream.of(employeeService.getAll()).
                 flatMap(e -> e.values().stream()).
                 filter(e -> e.getDep().getId_dep() == department).
                 mapToDouble(Employee::getSalary).sum();
-        String outputString = "Зарплатный фонд отдела " + Departments.findByKey(department) + " равна = " + result;
-
-        return outputString;
+        return result;
     }
 }

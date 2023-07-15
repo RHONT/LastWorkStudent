@@ -1,7 +1,5 @@
 package com.example.lastworkstudent.services.implApi;
 
-
-import com.example.lastworkstudent.dao.EmployeesRepository;
 import com.example.lastworkstudent.entity.Departments;
 import com.example.lastworkstudent.entity.Employee;
 import com.example.lastworkstudent.exceptions.EmployeeAlreadyAddedException;
@@ -47,9 +45,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void add(String first, String second, double salary, Departments dep) {
-        validateFIO(first, second);
-        Employee employee = new Employee(StringUtils.capitalize(first), StringUtils.capitalize(second), salary, dep);
+    public void add(Employee employee) {
+        validateFIO(employee.getFirstName(), employee.getSecondName());
 
         if (employees.containsKey(employee.hashCode())) {
             throw new EmployeeAlreadyAddedException("Такой сотрудник уже есть");
@@ -59,9 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void remove(String first, String second, double salary, Departments dep) {
-        validateFIO(first, second);
-        Employee employee = new Employee(first, second, salary, dep);
+    public void remove(Employee employee) {
+        validateFIO(employee.getFirstName(), employee.getSecondName());
 
         if (!employees.containsKey(employee.hashCode())) {
             throw new EmployeeNotFoundException("Такой сотрудника нет. Его нельзя удалить");
@@ -71,9 +67,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee find(String first, String second, double salary, Departments dep) {
-        validateFIO(first, second);
-        Employee employee = new Employee(first, second, salary, dep);
+    public Employee find(Employee employee) {
+        validateFIO(employee.getFirstName(), employee.getSecondName());
+
         if (!employees.containsKey(employee.hashCode())) {
             throw new EmployeeNotFoundException("Такого сотрудника нет");
         }

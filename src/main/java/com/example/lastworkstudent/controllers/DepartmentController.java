@@ -22,20 +22,22 @@ public class DepartmentController {
 
     @GetMapping(path = "/{id_dep}/salary/max")
     public String findMaxSalaryByDepart(@PathVariable(name = "id_dep") int department) {
-        return departmentService.findMaxSalaryOfDepartment(department);
+         double result=departmentService.findMaxSalaryOfDepartment(department);
+        return "Максимальная зарплата по отделу  " + Departments.findByKey(department) + " равна = " + result;
     }
 
     @GetMapping(path = "/{id_dep}/salary/min")
     public String findMinSalaryByDepart(@PathVariable(name = "id_dep") int department) {
-        return departmentService.findMinSalaryOfDepartment(department);
+        double result=departmentService.findMinSalaryOfDepartment(department);
+        return "Минимальная зарплата по отделу  " + Departments.findByKey(department) + " равна = " + result;
     }
 
 
 
     @GetMapping(path = "/{id_dep}/salary/sum")
-    public String findMinSalary(@PathVariable(name = "id_dep") int department) {
-
-        return departmentService.sumPayDepartment(department);
+    public String findSumSalaryOfDepart(@PathVariable(name = "id_dep") int department) {
+    double result=departmentService.sumPayDepartment(department);
+        return  "Зарплатный фонд отдела " + Departments.findByKey(department) + " равна = " + result;
     }
 
     @GetMapping(path = "/{id_dep}/employees")

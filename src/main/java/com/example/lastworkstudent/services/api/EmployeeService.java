@@ -7,11 +7,11 @@ import com.example.lastworkstudent.entity.Employee;
 import java.util.Map;
 
 public interface EmployeeService {
-    void add(String first, String second, double salary, Departments dep);
+    void add(Employee employee);
 
-    void remove(String first, String second, double salary, Departments dep);
+    void remove(Employee employee);
 
-    Employee find(String first, String second, double salary, Departments dep);
+    Employee find(Employee employee);
 
     Map<Integer, Employee> getAll();
 }
