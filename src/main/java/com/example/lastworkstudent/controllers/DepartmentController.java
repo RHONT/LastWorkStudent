@@ -3,7 +3,7 @@ package com.example.lastworkstudent.controllers;
 
 import com.example.lastworkstudent.entity.Departments;
 import com.example.lastworkstudent.entity.Employee;
-import com.example.lastworkstudent.impl.DepartmentService;
+import com.example.lastworkstudent.services.api.DepartmentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,36 +20,37 @@ public class DepartmentController {
     }
 
 
-    @GetMapping(path = "/max-salary")
-    public Employee findMaxSalary(@RequestParam(name = "department") int department) {
-        return departmentService.findMaxSalaryOfDepartment(department);
+    @GetMapping(path = "/{id_dep}/salary/max")
+    public String findMaxSalaryByDepart(@PathVariable(name = "id_dep", required = false) Integer department) {
+         double result=departmentService.findMaxSalaryOfDepartment(department);
+        return "Максимальная зарплата по отделу  " + Departments.findByKey(department) + " равна = " + result;
+    }
+
+    @GetMapping(path = "/{id_dep}/salary/min")
+    public String findMinSalaryByDepart(@PathVariable(name = "id_dep", required = false) Integer department) {
+        double result=departmentService.findMinSalaryOfDepartment(department);
+        return "Минимальная зарплата по отделу  " + Departments.findByKey(department) + " равна = " + result;
     }
 
 
 
-    @GetMapping(path = "/min-salary")
-    public Employee findMinSalary(@RequestParam(name = "department") int department) {
-
-        return departmentService.findMinSalaryOfDepartment(department);
+    @GetMapping(path = "/{id_dep}/salary/sum")
+    public String findSumSalaryOfDepart(@PathVariable(name = "id_dep", required = false) Integer department) {
+    double result=departmentService.sumPayDepartment(department);
+        return  "Зарплатный фонд отдела " + Departments.findByKey(department) + " равна = " + result;
     }
 
-    @GetMapping(path = "/all", params = {"department"})
-    public List<Employee> getEmployeesOfDepartment(@RequestParam(name = "department") int department) {
+    @GetMapping(path = "/{id_dep}/employees")
+    public List<Employee> getEmployeesOfDepartment(@PathVariable(name = "id_dep", required = false) Integer department) {
         return departmentService.getEmployeesOfDepartment(department);
     }
 
 
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/employees")
     public Map<Departments, List<Employee>> all() {
         return departmentService.groupEmployeesByDepartments();
     }
 
-// если включить, то advice будет проигнорирован
-//    @ExceptionHandler
-//    public ResponseEntity<String> test(TestException te) {
-//
-//        return new ResponseEntity<>("InnerHandler",HttpStatus.I_AM_A_TEAPOT);
-//    }
 
 
 }

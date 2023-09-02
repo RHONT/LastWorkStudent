@@ -11,21 +11,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class MyExceptionHandler {
 
-    // @ResponseStatus(value = HttpStatus.GONE,reason = "Some reason")
-    // Стоит у EmployeeNotFoundException
-    // но эта аннотация игнорируется, так как ExceptionHandler отлавливает это исключение и дает свою реализацию
-    @ExceptionHandler({EmployeeNotFoundException.class})
-    public ResponseEntity<String> test2(Exception e) {
-
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.IM_USED);
-    }
-
-    @ExceptionHandler({TestException.class})
+    @ExceptionHandler({RuntimeException.class})
     // MyResponseError - самосозданный класс
     // Если укажу reson, все сломается. Выдастся стандартное сообщение
-    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public MyResponseError test(Exception e) {
 
-        return new MyResponseError(e.getMessage(), HttpStatus.IM_USED);
+        return new MyResponseError(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
